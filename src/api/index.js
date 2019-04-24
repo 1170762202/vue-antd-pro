@@ -1,6 +1,6 @@
 const api = {
-    BASE_URL: 'http://192.168.0.253:8080',
-    Login: '/login/wx',
+    BASE_URL: 'http://localhost:8088',
+    Login: '/test',
     Logout: '/auth/logout',
     ForgePassword: '/auth/forge-password',
     Register: '/auth/register',

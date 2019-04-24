@@ -103,16 +103,51 @@
                                 path: '/base_table/first',
                                 title: '样式1',
                             }, {
-                                index: '1-0',
+                                index: '1-1',
                                 path: '/base_table/second',
                                 title: '样式2',
                             },
                         ]
-                    }, {
-                        icon: 'area-chart',
+                    },
+                     {
+                        icon: 'interation',
                         index: '2',
+                        path: '/process',
+                        title: '流程图',
+                        subs: [
+                            {
+                                index: '2-0',
+                                path: '/process/first',
+                                title: '交易流程图',
+                            },
+                        ]
+                    },
+                    {
+                        icon: 'area-chart',
+                        index: '3',
                         path: '/echart',
                         title: 'EChart表'
+                    },
+                    {
+                        icon: 'warning',
+                        index: '4',
+                        path: '/warning',
+                        title: '错误处理',
+                        subs: [
+                            {
+                                index: '4-0',
+                                path: '/warning/first',
+                                title: '权限测试',
+                            }, {
+                                index: '4-1',
+                                path: '/warning/second',
+                                title: '403',
+                            },{
+                                index: '4-2',
+                                path: '/warning/third',
+                                title: '404',
+                            },
+                        ]
                     },
                     // {
                     //     icon: 'video-camera',

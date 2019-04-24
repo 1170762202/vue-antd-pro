@@ -1,25 +1,19 @@
 <template>
     <div>
 
-        <a-row :gutter="16">
-            <a-col :span="8">
-                <a-card title="柱形图" :bordered=false>
-                    <v-column style="width: 50%"></v-column>
+        <a-card title="柱形图" :bordered=false>
+            <v-column style="width: auto"></v-column>
 
-                </a-card>
-            </a-col>
-            <a-col :span="8">
-                <a-card title="饼状图" :bordered=false>
-                    <v-pie style="width: 50%"></v-pie>
+        </a-card>
 
-                </a-card>
-            </a-col>
-            <a-col :span="8">
-                <a-card title="柱形图" :bordered=false>
-                    <v-column-y style="width: 50%"></v-column-y>
-                </a-card>
-            </a-col>
-        </a-row>
+        <a-card title="饼状图" :bordered=false>
+            <v-pie style="width: auto"></v-pie>
+
+        </a-card>
+
+        <a-card title="柱形图" :bordered=false>
+            <v-column-y style="width: auto"></v-column-y>
+        </a-card>
 
     </div>
 </template>

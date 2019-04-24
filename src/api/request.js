@@ -8,7 +8,7 @@ function postRequest(url, data = {}, method = 'post') {
             url: url,
             method: method,
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
             },
             data: data
         })

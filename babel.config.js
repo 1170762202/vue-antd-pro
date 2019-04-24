@@ -3,7 +3,6 @@ module.exports = {
         '@vue/app'
     ],
 
-
     // dev: {
     //     // development server port 8000
     //     // port: 8000

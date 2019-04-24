@@ -51,8 +51,8 @@
 </template>
 
 <script>
-    import vEditModel from '../../components/EditTableModel'
-    import {dateTime} from '../../utils/DataTime'
+    import vEditModel from '../../../components/EditTableModel'
+    import {dateTime} from '../../../utils/DataTime'
 
     const columns = [{
         title: 'id',
