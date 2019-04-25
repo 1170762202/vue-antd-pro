@@ -1,5 +1,5 @@
 const api = {
-    BASE_URL: 'http://localhost:8088',
+    BASE_URL: 'https://www.baidu.com/',
     Login: '/test',
     Logout: '/auth/logout',
     ForgePassword: '/auth/forge-password',

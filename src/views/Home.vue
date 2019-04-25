@@ -1,67 +1,74 @@
 <template>
     <div class="wrapper">
-        <a-layout id="components-layout-demo-custom-trigger">
+        <div>
+            <a-layout id="components-layout-demo-custom-trigger">
 
-            <a-layout-sider
-                    :style="{width:'200px'}"
-                    :trigger="null"
-                    :collapsible="true"
-                    v-model="collapsed">
-                <div class="logo">
-                    <p>后台管理系统</p>
-                </div>
-                <a-menu theme="dark" mode="inline"
-                        @click="menuClick"
-                        @openChange="openChange"
-                        :openKeys="openKeys"
-                        :selectedKeys="selectedKeys">
-                    <template v-for="item in items"><!--一级遍历-->
+                <a-layout-sider
+                        :style="{width:'200px'}"
+                        :trigger="null"
+                        :collapsible="true"
+                        v-model="collapsed">
+                    <div class="logo">
+                        <p>后台管理系统</p>
+                    </div>
+                    <a-menu theme="dark" mode="inline"
+                            @click="menuClick"
+                            @openChange="openChange"
+                            :openKeys="openKeys"
+                            :selectedKeys="selectedKeys">
+                        <template v-for="item in items"><!--一级遍历-->
 
-                        <template v-if="item.subs"><!--如果存在子集-->
-                            <a-sub-menu :key=item.path :index="item.index">
-                                <span slot="title"><a-icon :type="item.icon"/><span>{{item.title}}</span></span>
+                            <template v-if="item.subs"><!--如果存在子集-->
+                                <a-sub-menu :key=item.path :index="item.index">
+                                    <span slot="title"><a-icon :type="item.icon"/><span>{{item.title}}</span></span>
 
-                                <template v-for="subItem in item.subs"><!--//二级遍历-->
-                                    <a-sub-menu v-if="subItem.subs" :key=subItem.path><!--如果存在子集-->
-                                        <template slot="title">{{ subItem.title }}</template>
-                                        <a-menu-item v-for="(threeItem,i) in subItem.subs" :key="threeItem.path"
-                                                     :index="threeItem.index"><!--三级遍历-->
-                                            <span>{{threeItem.title}}</span>
+                                    <template v-for="subItem in item.subs"><!--//二级遍历-->
+                                        <a-sub-menu v-if="subItem.subs" :key=subItem.path><!--如果存在子集-->
+                                            <template slot="title">{{ subItem.title }}</template>
+                                            <a-menu-item v-for="(threeItem,i) in subItem.subs" :key="threeItem.path"
+                                                         :index="threeItem.index"><!--三级遍历-->
+                                                <span>{{threeItem.title}}</span>
+                                            </a-menu-item>
+                                        </a-sub-menu>
+
+                                        <a-menu-item v-else :key=subItem.path :index="subItem.index">
+                                            <span>{{subItem.title}}</span>
                                         </a-menu-item>
-                                    </a-sub-menu>
+                                    </template>
+                                </a-sub-menu>
+                            </template>
 
-                                    <a-menu-item v-else :key=subItem.path :index="subItem.index">
-                                        <span>{{subItem.title}}</span>
-                                    </a-menu-item>
-                                </template>
-                            </a-sub-menu>
+                            <template v-else>
+                                <a-menu-item :key=item.path :index="item.index">
+                                    <span><a-icon :type="item.icon"/><span>{{item.title}}</span></span>
+                                </a-menu-item>
+                            </template>
                         </template>
+                    </a-menu>
+                </a-layout-sider>
 
-                        <template v-else>
-                            <a-menu-item :key=item.path :index="item.index">
-                                <span><a-icon :type="item.icon"/><span>{{item.title}}</span></span>
-                            </a-menu-item>
-                        </template>
-                    </template>
-                </a-menu>
-            </a-layout-sider>
+                <a-layout>
+                    <v-header></v-header>
 
-            <a-layout>
-                <v-header></v-header>
+                    <v-tabs style="margin-top: 3px"></v-tabs>
 
-                <v-tabs style="margin-top: 3px"></v-tabs>
+                    <a-layout-content
+                            :style="{ height: 'auto',width:'100%',minHeight:'100vh',padding:'16px'}">
 
-                <a-layout-content
-                        :style="{ height: 'auto',width:'100%',minHeight:'100vh',padding:'16px'}">
+                        <!-- 只有在标签页列表里的页面才使用keep-alive，即关闭标签之后就不保存到内存中了。-->
+                        <keep-alive :include="tagsList">
+                            <router-view></router-view>
+                        </keep-alive>
+                    </a-layout-content>
+                </a-layout>
 
-                    <!-- 只有在标签页列表里的页面才使用keep-alive，即关闭标签之后就不保存到内存中了。-->
-                    <keep-alive :include="tagsList">
-                        <router-view></router-view>
-                    </keep-alive>
-                </a-layout-content>
             </a-layout>
+        </div>
 
-        </a-layout>
+        <div class="setting-drawer-index-handle">
+            <a-icon type="setting" v-if="!visible"/>
+            <a-icon type="close" v-else/>
+        </div>
     </div>
 
 </template>
@@ -69,7 +76,7 @@
 <script>
     // @ is an alias to /src
     import vTabs from '@/components/MultiTab'
-    import vHeader from "../components/Header";
+    import vHeader from "@/views/common/Header.vue";
     import vUserMenu from '@/views/common/TopRightMenu'
 
     export default {
@@ -82,6 +89,7 @@
         data() {
             return {
                 collapsed: false,
+                visible: false,
                 selectedKeys: [this.$route.fullPath],
                 openKeys: [],
                 tagsList: [],
@@ -109,7 +117,7 @@
                             },
                         ]
                     },
-                     {
+                    {
                         icon: 'interation',
                         index: '2',
                         path: '/process',
@@ -142,65 +150,13 @@
                                 index: '4-1',
                                 path: '/warning/second',
                                 title: '403',
-                            },{
+                            }, {
                                 index: '4-2',
                                 path: '/warning/third',
                                 title: '404',
                             },
                         ]
                     },
-                    // {
-                    //     icon: 'video-camera',
-                    //     index: '1',
-                    //     path: '/second',
-                    //     title: '导航2',
-                    //     subs: [
-                    //         {
-                    //             icon: 'video-camera',
-                    //             index: '1-0',
-                    //             path: '/second/first',
-                    //             title: '导航2-0',
-                    //         }, {
-                    //             icon: 'video-camera',
-                    //             index: '1-1',
-                    //             path: '/second/second',
-                    //             title: '导航2-1',
-                    //         },
-                    //     ]
-                    // }, {
-                    //     icon: 'video-camera',
-                    //     index: '2',
-                    //     path: '/third',
-                    //     title: '导航3',
-                    //     subs: [
-                    //         {
-                    //             icon: 'video-camera',
-                    //             index: '3-0',
-                    //             path: '/third/first',
-                    //             title: '导航3-0',
-                    //         }, {
-                    //             icon: 'video-camera',
-                    //             index: '3-1',
-                    //             path: '/third/second',
-                    //             title: '导航3-1',
-                    //             subs: [
-                    //                 {
-                    //                     icon: 'video-camera',
-                    //                     index: '3-1-1',
-                    //                     path: '/third/second/first',
-                    //                     title: '导航3-1-1',
-                    //                 },
-                    //                 {
-                    //                     icon: 'video-camera',
-                    //                     index: '3-1-1',
-                    //                     path: '/third/second/second',
-                    //                     title: '导航3-1-2',
-                    //                 },
-                    //
-                    //             ]
-                    //         },
-                    //     ]
-                    // },
                 ],
             }
         },
@@ -239,36 +195,15 @@
     }
 </script>
 <style lang="scss">
-
-    .question {
-        font-size: 20px;
-        line-height: 64px;
-        padding: 0 6px;
-        cursor: pointer;
-        transition: color .3s;
-        color: #000;
-    }
-
-    .question:hover {
-        background: #f9f9f9;
-        color: #1890ff;
-
-    }
-
-
     .wrapper {
         height: 100%;
         width: 100%;
         background: #666;
         background-size: 100%;
+        overflow-x: hidden;
+        overflow-y: auto;
     }
 
-    .header-right-info {
-        float: right;
-        height: 100%;
-        width: auto;
-        margin-right: 20px;
-    }
 
     .header {
         background: #fff;
@@ -299,5 +234,28 @@
         color: #fff;
         font-size: 20px;
         text-align: center;
+    }
+
+    .setting-drawer-index-handle {
+        position: absolute;
+        top: 240px;
+        background: #1890ff;
+        width: 48px;
+        height: 48px;
+        right: 0px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        pointer-events: auto;
+        z-index: 1001;
+        text-align: center;
+        font-size: 16px;
+        border-radius: 4px 0 0 4px;
+
+        i {
+            color: rgb(255, 255, 255);
+            font-size: 20px;
+        }
     }
 </style>

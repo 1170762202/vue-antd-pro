@@ -67,15 +67,14 @@
                 } = this;
                 this.form.validateFields((err, values) => {
                     state.loginBtn = true;
-
                     if (!err) {
                         this.$api.login(values.username, values.password)
                             .then((res) => this.loginSuccess(res))
                             .catch(err => this.requestFailed(err))
                             .finally(() => {
                                 state.loginBtn = false;
-                                // localStorage.setItem('username', values.username);
-                                // this.$router.push({name: 'home'});
+                                localStorage.setItem('username', values.username);
+                                this.$router.push({name: 'home'});
                             });
                         console.log('Received values of form: ', values);
                     }
