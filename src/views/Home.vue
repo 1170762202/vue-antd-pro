@@ -97,7 +97,7 @@
                 tagsList: [],
                 items: [
                     {
-                        icon: 'icon-caretup',
+                        icon: 'home',
                         index: '0',
                         path: '/dashboard',
                         title: '系统首页'
