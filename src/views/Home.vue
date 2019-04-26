@@ -97,7 +97,7 @@
                 tagsList: [],
                 items: [
                     {
-                        icon: 'user',
+                        icon: 'icon-caretup',
                         index: '0',
                         path: '/dashboard',
                         title: '系统首页'
@@ -118,8 +118,23 @@
                                 title: '样式2',
                             },
                         ]
-                    },
-                    {
+                    }, {
+                        icon: 'edit',
+                        index: '1',
+                        path: '/editor',
+                        title: '编辑器',
+                        subs: [
+                            {
+                                index: '1-0',
+                                path: '/rich-text-editor/first',
+                                title: '富文本编辑器',
+                            }, {
+                                index: '1-1',
+                                path: '/rich-text-editor/second',
+                                title: 'MarkDown编辑器',
+                            },
+                        ]
+                    }, {
                         icon: 'interation',
                         index: '2',
                         path: '/process',
@@ -131,14 +146,33 @@
                                 title: '交易流程图',
                             },
                         ]
-                    },
-                    {
+                    }, {
                         icon: 'area-chart',
                         index: '3',
                         path: '/echart',
                         title: 'EChart表'
-                    },
-                    {
+                    }, {
+                        icon: 'right-circle',
+                        index: '4',
+                        path: '/custom-icon',
+                        title: '自定义图标',
+                    }, {
+                        icon: 'drag',
+                        index: '2',
+                        path: '/drag',
+                        title: '拖拽',
+                        subs: [
+                            {
+                                index: '2-0',
+                                path: '/drag/first',
+                                title: '拖拽列表',
+                            }, {
+                                index: '2-0',
+                                path: '/drag/second',
+                                title: '拖拽弹窗',
+                            },
+                        ]
+                    }, {
                         icon: 'warning',
                         index: '4',
                         path: '/warning',

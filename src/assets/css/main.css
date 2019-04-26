@@ -15,4 +15,16 @@ a {
 .router-link-active {
     text-decoration: none;
 }
-
+.container {
+    padding: 30px;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+.plugins-tips {
+    padding: 20px 10px;
+    margin-bottom: 20px;
+}
+#nprogress .bar {
+    background: dodgerblue !important;
+}

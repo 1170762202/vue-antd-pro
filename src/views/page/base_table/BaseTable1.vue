@@ -1,8 +1,22 @@
 <template>
     <div style="background: #fff; padding: 16px">
 
-    <a-button
-                style="margin: 0 8px 8px"
+        <div >
+            <a-input placeholder="姓名"class="duan"/>
+            <a-date-picker @change="onDateChange" class="duan" placeholder="选择时间"/>
+            <a-input-number :min="1" :max="99" v-model="age" class="duan" @change="onAgeChange" placeholder="输入年龄"
+                           />
+            <a-cascader :options="addrData" :displayRender="displayAddrRender" expandTrigger="hover"
+                        @change="onAddrChange"
+                        class="duan"
+                        placeholder="选择地址" />
+            <a-button type="primary" style="margin-left: 10px;">查询</a-button>
+            <a-button type="primary" style="margin-left: 10px;">导出数据</a-button>
+        </div>
+
+        <a-button
+                style=" margin: 14px 8px 8px
+            "
                 type="primary"
                 @click="deleteAll"
                 :disabled="!hasSelected"
@@ -24,23 +38,28 @@
 
             <template slot="operation" slot-scope="text, record, index">
                 <div class='editable-row-operations'>
-                    <a-dropdown>
-                        <a-menu slot="overlay" @click="handleMenuClick">
-                            <a-menu-item key="edit"
-                                         :value="record.key">
-                                <a-icon type="edit"/>
-                                编辑
-                            </a-menu-item>
-                            <a-menu-item key="delete"
-                                         :value="record.key">
-                                <a-icon type="delete"/>
-                                删除
-                            </a-menu-item>
-                        </a-menu>
-                        <a style="margin-left: 8px">更多
-                            <a-icon type="down"/>
-                        </a>
-                    </a-dropdown>
+                    <a-button type="primary" @click="() => handleEdit(record.key)">编辑</a-button>
+                    <a-button type="danger" @click="() => handleDelete(record.key)"
+                              style="margin-left: 10px;background:#FF2E2C ;color: white">删除
+                    </a-button>
+
+                    <!--                    <a-dropdown>-->
+                    <!--                        <a-menu slot="overlay" @click="handleMenuClick">-->
+                    <!--                            <a-menu-item key="edit"-->
+                    <!--                                         :value="record.key">-->
+                    <!--                                <a-icon type="edit"/>-->
+                    <!--                                编辑-->
+                    <!--                            </a-menu-item>-->
+                    <!--                            <a-menu-item key="delete"-->
+                    <!--                                         :value="record.key">-->
+                    <!--                                <a-icon type="delete"/>-->
+                    <!--                                删除-->
+                    <!--                            </a-menu-item>-->
+                    <!--                        </a-menu>-->
+                    <!--                        <a style="margin-left: 8px">更多-->
+                    <!--                            <a-icon type="down"/>-->
+                    <!--                        </a>-->
+                    <!--                    </a-dropdown>-->
                 </div>
             </template>
         </a-table>
@@ -60,24 +79,24 @@
         fixed: 'left',
         width: 100,
     }, {
-        title: 'name',
+        title: '姓名',
         dataIndex: 'name',
 
     }, {
-        title: 'age',
+        title: '年龄',
         dataIndex: 'age',
 
     }, {
-        title: 'address',
+        title: '地址',
         dataIndex: 'address',
     }, {
-        title: 'time',
+        title: '时间',
         dataIndex: 'time',
     }, {
         title: 'operation',
         dataIndex: 'operation',
         fixed: 'right',
-        width: 150,
+        width: 250,
         scopedSlots: {customRender: 'operation'},
 
     }]
@@ -89,13 +108,48 @@
         },
         data() {
             return {
+                age: 1,
                 dataSource: [],
                 columns,
                 selectedRowKeys: [], // Check here to configure the default column
                 loading: false,
                 deleteLoading: false,
                 editModelVisible: false,
-
+                addrData: [{
+                    value: 'fj',
+                    label: '福建',
+                    children: [{
+                        value: 'xm',
+                        label: '厦门',
+                        children: [{
+                            value: 'hl',
+                            label: '湖里区',
+                        }, {
+                            value: 'sm',
+                            label: '思明区',
+                        }, {
+                            value: 'xa',
+                            label: '翔安区',
+                        },],
+                    }],
+                }, {
+                    value: 'qz',
+                    label: '泉州',
+                    children: [{
+                        value: 'qzd',
+                        label: '泉州东',
+                        children: [{
+                            value: 'qzd1',
+                            label: '泉州东1',
+                        }, {
+                            value: 'qzd2',
+                            label: '泉州东2',
+                        }, {
+                            value: 'qzd3',
+                            label: '泉州东3',
+                        },],
+                    }],
+                },],
             }
 
         },
@@ -105,14 +159,15 @@
                 this.dataSource.push({
                     id: i,
                     key: i,
-                    time:dateTime.getDate(),
+                    time: dateTime.getDate(),
                     name: `Tom ${i}`,
                     age: (i + 1),
                     address: `address. ${i}`,
                     tags: [i]
                 });
             }
-        },
+        }
+        ,
         computed: {
             rowSelection() {
                 return {
@@ -163,13 +218,30 @@
                         },
                     }],
                 }
-            },
+            }
+            ,
             hasSelected() {
                 return this.selectedRowKeys.length > 0
-            },
+            }
+            ,
         },
         methods: {
-
+            onAddrChange(value) {
+                console.log('onAddrChange', value)
+            },
+            displayAddrRender({labels, selectedOptions}) {
+                var val = '';
+                selectedOptions.map((item, index) => {
+                    val += item.label + '/'
+                })
+                return val;
+            },
+            onAgeChange(value) {
+                console.log('age', value)
+            },
+            onDateChange(date, dateString) {
+                console.log('date', date, 'dateString', dateString)
+            },
             deleteAll() {
                 this.deleteLoading = true;
                 // ajax request after empty completing
@@ -178,7 +250,8 @@
                     this.deleteLoading = false;
                     this.selectedRowKeys = [];
                 }, 1000);
-            },
+            }
+            ,
 
             handleChange(value, key, column) {
                 const newData = [...this.dataSource]
@@ -187,7 +260,8 @@
                     target[column] = value
                     this.dataSource = newData
                 }
-            },
+            }
+            ,
             edit(key) {
                 const newData = [...this.dataSource]
                 const target = newData.filter(item => key === item.key)[0]
@@ -195,16 +269,19 @@
                     target.editable = true
                     this.dataSource = newData
                 }
-            },
+            }
+            ,
             onDelete(key) {
                 const dataSource = [...this.dataSource]
                 this.dataSource = dataSource.filter(item => item.key !== key)
-            },
+            }
+            ,
             onDeleteAll() {
                 this.selectedRowKeys.forEach((key) => {
                     this.onDelete(key)
                 })
-            },
+            }
+            ,
             save(key) {
                 const newData = [...this.dataSource]
                 const target = newData.filter(item => key === item.key)[0]
@@ -213,7 +290,8 @@
                     this.dataSource = newData
                     this.cacheData = newData.map(item => ({...item}))
                 }
-            },
+            }
+            ,
             cancel(key) {
                 const newData = [...this.dataSource]
                 const target = newData.filter(item => key === item.key)[0]
@@ -222,21 +300,33 @@
                     delete target.editable
                     this.dataSource = newData
                 }
-            },
+            }
+            ,
             handleMenuClick({item, key, keyPath}) {
                 switch (key) {
                     case "edit":
-                        this.editModelVisible = true
+                        this.handleEdit()
                         break
                     case "delete":
-                        this.onDelete(item.value)
-                        break
+                        this.handleDelete()
+                        break;
                 }
-            },
+            }
+            ,
+            handleEdit(key) {
+                this.editModelVisible = true
+            }
+            ,
+            handleDelete(key) {
+                this.onDelete(key)
+                this.$message.success('操作成功');
+            }
+            ,
             toShowModel() {
                 this.editModelVisible = !this.editModelVisible
             }
-        },
+        }
+        ,
     }
 </script>
 
@@ -245,4 +335,8 @@
         margin-right: 8px;
     }
 
+    .duan {
+        margin-left: 10px;
+        width: 20%;
+    }
 </style>

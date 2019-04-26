@@ -62,6 +62,31 @@ export default new Router({
                     name: '交易流程图',
                     meta: {title: '交易流程图',content:'描述'},
                     component: () => import('./views/page/process/TransactionProcess.vue')
+                },{
+                    path: '/rich-text-editor/first',
+                    name: '富文本编辑器',
+                    meta: {title: '富文本编辑器',content:'描述'},
+                    component: () => import('./views/page/editor/RichTextEditor.vue')
+                },{
+                    path: '/rich-text-editor/second',
+                    name: 'MarkDown编辑器',
+                    meta: {title: 'MarkDown编辑器',content:'描述'},
+                    component: () => import('./views/page/editor/MarkDownEditor.vue')
+                },{
+                    path: '/custom-icon',
+                    name: '自定义图标',
+                    meta: {title: '自定义图标',content:'描述'},
+                    component: () => import('./views/page/IconSelector.vue')
+                },{
+                    path: '/drag/first',
+                    name: '拖拽列表',
+                    meta: {title: '拖拽列表',content:'描述'},
+                    component: () => import('./views/page/drag/DragList.vue')
+                },{
+                    path: '/drag/second',
+                    name: '拖拽弹窗',
+                    meta: {title: '拖拽弹窗',content:'描述'},
+                    component: () => import('./views/page/drag/DragDialog.vue')
                 },
             ]
         },
