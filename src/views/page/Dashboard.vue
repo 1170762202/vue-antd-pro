@@ -1,40 +1,10 @@
 <template>
     <div>
-        <div style="background-color: #fff;height: 120px;">
-            <div style="color: #000;
-        height: 100%;
-        width: auto;
-padding: 20px">
-                <img style="width: 80px; height: 80px; border-radius: 50%;
-                               margin-bottom: 4px;float: left;"
-                     src="../../assets/img/avatar.jpg"/>
-                <div style="float: left;margin-left: 5px">
-                    <p style="color: #000;font-size: 20px; margin-top: 6px">{{userInfo.nickName}}</p>
-                    <p style="color: #888888;font-size: 14px;">我是一名安卓机器人</p>
-                </div>
 
-
-                <div style="float: right;margin-right: 20px;">
-                    <div style="font-size: 20px;text-align: center">
-                        <p>用户数量:</p>
-                        <p>1234</p>
-                    </div>
-                </div>
-                <div style="float: right;margin-right: 20px;">
-                    <div style="font-size: 20px;text-align: center">
-                        <p>上次登录时间:</p>
-                        <p>12:00</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <br/><br/>
-
-        <div>
+        <div style="display: flex;height: 400px;">
             <a-card :tabList="tabList" :activeTabKey="activeTabKey" hoverable
                     :loading="tabCardLoading"
-                    style="min-height:440px"
+                    style="height: 100%;width: 40%;"
                     @tabChange="activeTabKey => onTabChange(activeTabKey, 'activeTabKey')">
                 <span slot="customRender" slot-scope="item">
                     <a-icon type="home"/>{{item.name}}</span>
@@ -45,9 +15,6 @@ padding: 20px">
                     <div class="div-inline-left">
                         <v-column style="width: 100%; height: 300px;"></v-column>
                     </div>
-                    <div class="div-inline-right">
-                        <v-broken-line style="width:100%; height: 330px;"></v-broken-line>
-                    </div>
 
                 </div>
                 <div v-else-if="activeTabKey === 'tab2'">
@@ -55,26 +22,22 @@ padding: 20px">
                         <a-timeline-item>Create a services site 2015-09-01</a-timeline-item>
                         <a-timeline-item color="green">Solve initial network problems 2015-09-01</a-timeline-item>
                         <a-timeline-item>
-                            <a-icon slot="dot" type="clock-circle-o" style="font-size: 16px;" />
-                            Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.
+                            <a-icon slot="dot" type="clock-circle-o" style="font-size: 16px;"/>
+                            Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque
+                            laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi
+                            architecto beatae vitae dicta sunt explicabo.
                         </a-timeline-item>
                         <a-timeline-item color="red">Network problems being solved 2015-09-01</a-timeline-item>
                         <a-timeline-item>Create a services site 2015-09-01</a-timeline-item>
                         <a-timeline-item>
-                            <a-icon slot="dot" type="clock-circle-o" style="font-size: 16px;" />
+                            <a-icon slot="dot" type="clock-circle-o" style="font-size: 16px;"/>
                             Technical testing 2015-09-01
                         </a-timeline-item>
                     </a-timeline>
                 </div>
-
             </a-card>
-        </div>
 
-        <div style="display: flex;margin-top: 20px">
-
-
-            <div style="width: 40%;">
-
+            <div style="width: 60%;margin-left: 20px;">
                 <a-card title="语言详情" hoverable :bordered="false">
                     <h4>Vue</h4>
                     <a-progress :percent="30"/>
@@ -89,27 +52,43 @@ padding: 20px">
 
                     <a-progress :percent="50" :showInfo="false"/>
                 </a-card>
-            </div>
 
-            <div style="width: 60%;margin-left: 20px">
+            </div>
+        </div>
+
+        <div style="display: flex;margin-top: 20px">
+
+            <div style="width: 100%;">
                 <a-card title="最新动态" hoverable :bordered="false">
                     <a href="#" slot="extra">更多</a>
-                    <a-list
-                            itemLayout="horizontal"
-                            :dataSource="dynamicData">
-                        <a-list-item slot="renderItem" slot-scope="item, index">
-                            <a-list-item-meta>
-                                <a slot="title" href="#">{{item.title}}</a>
 
-                                <a-avatar slot="avatar"
-                                          src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"/>
-                            </a-list-item-meta>
-                            <a-icon slot="actions" type="delete" @click="deleteDynamic(item)"></a-icon>
+                    <div
+                            class="demo-infinite-container"
+                            v-infinite-scroll="handleInfiniteOnLoad"
+                            :infinite-scroll-disabled="busy"
+                            :infinite-scroll-distance="10"
+                    >
+                        <a-list
+                                itemLayout="horizontal"
+                                size="large"
+                                :pagination="pagination"
+                                :dataSource="dynamicData">
+                            <a-list-item slot="renderItem" slot-scope="item, index">
+                                <a-list-item-meta>
+                                    <a slot="title" href="#">{{item.title}}</a>
 
-                        </a-list-item>
-                    </a-list>
+                                    <a-avatar slot="avatar"
+                                              src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"/>
+                                </a-list-item-meta>
+                                <a-icon slot="actions" type="delete" @click="deleteDynamic(item)"></a-icon>
+
+                            </a-list-item>
+                        </a-list>
+                    </div>
                 </a-card>
+
             </div>
+
         </div>
 
     </div>
@@ -119,14 +98,27 @@ padding: 20px">
 
     import vColumn from '../../components/echarts/Column'
     import vBrokenLine from '../../components/echarts/BrokenLine'
+    import infiniteScroll from 'vue-infinite-scroll'
+    import Comment from "@/views/common/Comment";
 
     export default {
         name: "Dashboard",
         components: {
-            vColumn, vBrokenLine
+            Comment,
+            vColumn,
+            vBrokenLine,
         },
+        directives: {infiniteScroll},
         data() {
             return {
+                pagination: {
+                    onChange: (page) => {
+                        console.log(page);
+                    },
+                    pageSize: 10,
+                },
+                loading: false,
+                busy: false,
                 userInfo: {
                     nickName: 'An生'
                 },
@@ -149,6 +141,23 @@ padding: 20px">
         },
 
         methods: {
+            fetchData(callback) {
+
+            },
+            handleInfiniteOnLoad() {
+                const dynamicData = this.dynamicData
+                this.loading = true
+                if (dynamicData.length > 100) {
+                    this.$message.warning('Infinite List loaded all')
+                    this.busy = true
+                    this.loading = false
+                    return
+                }
+                this.fetchData((res) => {
+                    this.dynamicData.push(this.dynamicData)
+                    this.loading = false
+                })
+            },
             onTabChange(key, type) {
                 this[type] = key
             },
@@ -161,6 +170,27 @@ padding: 20px">
                 this.dynamicData = [
                     {
                         title: '用户a上传了新的项目',
+                    },
+                    {
+                        title: '用户b修改了管理员权限',
+                    },
+                    {
+                        title: '用户c登录管理系统',
+                    },
+                    {
+                        title: '用户d更改了系统权限',
+                    },
+                    {
+                        title: '用户b修改了管理员权限',
+                    },
+                    {
+                        title: '用户c登录管理系统',
+                    },
+                    {
+                        title: '用户d更改了系统权限',
+                    },
+                    {
+                        title: '用户d更改了系统权限',
                     },
                     {
                         title: '用户b修改了管理员权限',
@@ -192,12 +222,27 @@ padding: 20px">
 
     .div-inline-left {
         left: 0;
-        width: 48%;
+        width: 100%;
     }
 
     .div-inline-right {
         right: 0;
-        width: 48%;
+        width: 50%;
     }
 
+    .demo-infinite-container {
+        border: 1px solid #e8e8e8;
+        border-radius: 4px;
+        overflow: auto;
+        padding: 8px 24px;
+        margin-bottom: 50px;
+        height: 400px;
+    }
+
+    .demo-loading {
+        position: absolute;
+        bottom: 40px;
+        width: 100%;
+        text-align: center;
+    }
 </style>

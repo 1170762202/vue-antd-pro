@@ -51,6 +51,7 @@
                     <v-header></v-header>
 
                     <v-tabs style="margin-top: 3px"></v-tabs>
+                    <v-title :title="titleBar"></v-title>
 
                     <a-layout-content
                             :style="{ height: 'auto',width:'100%',minHeight:'100vh',padding:'16px'}">
@@ -65,10 +66,7 @@
             </a-layout>
         </div>
 
-        <div class="setting-drawer-index-handle">
-            <a-icon type="setting" v-if="!visible"/>
-            <a-icon type="close" v-else/>
-        </div>
+        <setting-side-bar></setting-side-bar>
     </div>
 
 </template>
@@ -78,10 +76,14 @@
     import vTabs from '@/components/MultiTab'
     import vHeader from "@/views/common/Header.vue";
     import vUserMenu from '@/views/common/TopRightMenu'
+    import SettingSideBar from "@/views/common/SettingSideBar";
+    import vTitle from "@/views/common/TitleBar";
 
     export default {
         name: 'home',
         components: {
+            vTitle,
+            SettingSideBar,
             vHeader,
             vTabs,
             vUserMenu,
@@ -89,7 +91,7 @@
         data() {
             return {
                 collapsed: false,
-                visible: false,
+                titleBar: '系统首页',
                 selectedKeys: [this.$route.fullPath],
                 openKeys: [],
                 tagsList: [],
@@ -190,6 +192,7 @@
                 this.setItem(newValue)
                 // 只有在标签页列表里的页面才使用keep-alive，即关闭标签之后就不保存到内存中了。
                 this.tagsList.push(newValue)
+                this.titleBar = newValue.meta.title
             }
         },
     }
@@ -236,26 +239,4 @@
         text-align: center;
     }
 
-    .setting-drawer-index-handle {
-        position: absolute;
-        top: 240px;
-        background: #1890ff;
-        width: 48px;
-        height: 48px;
-        right: 0px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        cursor: pointer;
-        pointer-events: auto;
-        z-index: 1001;
-        text-align: center;
-        font-size: 16px;
-        border-radius: 4px 0 0 4px;
-
-        i {
-            color: rgb(255, 255, 255);
-            font-size: 20px;
-        }
-    }
 </style>
