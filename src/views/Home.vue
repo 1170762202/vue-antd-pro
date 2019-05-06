@@ -4,15 +4,16 @@
             <a-layout id="components-layout-demo-custom-trigger">
 
                 <a-layout-sider
-                        :style="{width:'200px'}"
+                        :style="{width:'200px',background:'white'}"
                         :trigger="null"
                         :collapsible="true"
                         v-model="collapsed">
                     <div class="logo">
                         <p>后台管理系统</p>
                     </div>
-                    <a-menu theme="dark" mode="inline"
+                    <a-menu theme="light" mode="inline"
                             @click="menuClick"
+
                             @openChange="openChange"
                             :openKeys="openKeys"
                             :selectedKeys="selectedKeys">
@@ -48,16 +49,15 @@
                 </a-layout-sider>
 
                 <a-layout>
-                    <v-header></v-header>
-
+                    <v-header @onCollapseClick="toCollapse"></v-header>
                     <v-tabs style="margin-top: 3px"></v-tabs>
                     <v-title :title="titleBar"></v-title>
 
                     <a-layout-content
-                            :style="{ height: 'auto',width:'100%',minHeight:'100vh',padding:'16px'}">
+                            :style="{ height: '500px',width:'100%',minHeight:'100vh',padding:'16px',overflow:'auto'}">
 
                         <!-- 只有在标签页列表里的页面才使用keep-alive，即关闭标签之后就不保存到内存中了。-->
-                        <keep-alive :include="tagsList">
+                        <keep-alive>
                             <router-view></router-view>
                         </keep-alive>
                     </a-layout-content>
@@ -94,7 +94,6 @@
                 titleBar: '系统首页',
                 selectedKeys: [this.$route.fullPath],
                 openKeys: [],
-                tagsList: [],
                 items: [
                     {
                         icon: 'home',
@@ -197,7 +196,9 @@
             }
         },
         methods: {
-
+            toCollapse(value) {
+                this.collapsed = value
+            },
             menuClick({item, key, keyPath}) {
                 this.$router.push(key)
             },
@@ -224,9 +225,10 @@
             $route(newValue, oldValue) {
                 console.log('router', newValue)
                 this.setItem(newValue)
-                // 只有在标签页列表里的页面才使用keep-alive，即关闭标签之后就不保存到内存中了。
-                this.tagsList.push(newValue)
                 this.titleBar = newValue.meta.title
+            },
+            tagsList() {
+                console.log('tagsList', this.tagsList)
             }
         },
     }
@@ -237,16 +239,8 @@
         width: 100%;
         background: #666;
         background-size: 100%;
-        overflow-x: hidden;
-        overflow-y: auto;
-    }
+        overflow: hidden;
 
-
-    .header {
-        background: #fff;
-        padding: 0;
-        height: 64px;
-        box-shadow: 0 1px 2px #FDFDFD;
     }
 
 
@@ -268,7 +262,7 @@
         height: auto;
         background: rgba(255, 255, 255, .2);
         margin: 16px;
-        color: #fff;
+        color: #000;
         font-size: 20px;
         text-align: center;
     }

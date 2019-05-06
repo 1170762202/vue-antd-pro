@@ -31,6 +31,7 @@
 
         <a-table
                 bordered
+                :pagination="{pageSize:8}"
                 :rowSelection="rowSelection"
                 :columns="columns"
                 :dataSource="dataSource"
@@ -42,24 +43,6 @@
                     <a-button type="danger" @click="() => handleDelete(record.key)"
                               style="margin-left: 10px;background:#FF2E2C ;color: white">删除
                     </a-button>
-
-                    <!--                    <a-dropdown>-->
-                    <!--                        <a-menu slot="overlay" @click="handleMenuClick">-->
-                    <!--                            <a-menu-item key="edit"-->
-                    <!--                                         :value="record.key">-->
-                    <!--                                <a-icon type="edit"/>-->
-                    <!--                                编辑-->
-                    <!--                            </a-menu-item>-->
-                    <!--                            <a-menu-item key="delete"-->
-                    <!--                                         :value="record.key">-->
-                    <!--                                <a-icon type="delete"/>-->
-                    <!--                                删除-->
-                    <!--                            </a-menu-item>-->
-                    <!--                        </a-menu>-->
-                    <!--                        <a style="margin-left: 8px">更多-->
-                    <!--                            <a-icon type="down"/>-->
-                    <!--                        </a>-->
-                    <!--                    </a-dropdown>-->
                 </div>
             </template>
         </a-table>

@@ -1,11 +1,12 @@
 <template>
     <div>
 
-        <div style="display: flex;height: 400px;">
+        <div style="display: flex;height: 400px;width: 100%;">
             <a-card :tabList="tabList" :activeTabKey="activeTabKey" hoverable
                     :loading="tabCardLoading"
                     style="height: 100%;width: 40%;"
                     @tabChange="activeTabKey => onTabChange(activeTabKey, 'activeTabKey')">
+
                 <span slot="customRender" slot-scope="item">
                     <a-icon type="home"/>{{item.name}}</span>
                 <!--                <a href="#" slot="extra">More</a>-->
@@ -62,12 +63,7 @@
                 <a-card title="最新动态" hoverable :bordered="false">
                     <a href="#" slot="extra">更多</a>
 
-                    <div
-                            class="demo-infinite-container"
-                            v-infinite-scroll="handleInfiniteOnLoad"
-                            :infinite-scroll-disabled="busy"
-                            :infinite-scroll-distance="10"
-                    >
+                    <div class="demo-infinite-container">
                         <a-list
                                 itemLayout="horizontal"
                                 size="large"
@@ -236,7 +232,6 @@
         overflow: auto;
         padding: 8px 24px;
         margin-bottom: 50px;
-        height: 400px;
     }
 
     .demo-loading {

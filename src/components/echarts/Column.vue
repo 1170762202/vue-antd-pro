@@ -1,5 +1,5 @@
 <template>
-    <base-chart :options="options" style="width: auto;height: auto"></base-chart>
+    <base-chart :options="options" style="width: 100%;height: auto"></base-chart>
 </template>
 
 <script>

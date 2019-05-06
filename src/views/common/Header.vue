@@ -3,7 +3,7 @@
         <a-layout-header class="header">
             <a-icon class="trigger"
                     :type="collapsed ? 'menu-unfold' : 'menu-fold'"
-                    @click="()=> collapsed = !collapsed"/>
+                    @click="onCollapseClick"/>
 
             <div class="header-right-info">
 
@@ -61,6 +61,10 @@
         },
 
         methods: {
+            onCollapseClick() {
+                this.collapsed = !this.collapsed
+                this.$emit('onCollapseClick',this.collapsed)
+            },
             getUnReadData() {
                 setTimeout(() => {
                     this.unReadData = [

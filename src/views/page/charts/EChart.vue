@@ -1,19 +1,19 @@
 <template>
-    <div>
+    <div style="height: 100%;background: white">
 
-        <a-card title="柱形图" :bordered=false>
+        <div title="柱形图" :bordered=false>
             <v-column style="width: auto"></v-column>
 
-        </a-card>
+        </div>
 
-        <a-card title="饼状图" :bordered=false>
+        <div title="饼状图" :bordered=false>
             <v-pie style="width: auto"></v-pie>
 
-        </a-card>
+        </div>
 
-        <a-card title="柱形图" :bordered=false>
+        <div title="柱形图" :bordered=false>
             <v-column-y style="width: auto"></v-column-y>
-        </a-card>
+        </div>
 
     </div>
 </template>
